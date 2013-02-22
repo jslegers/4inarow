@@ -7,6 +7,10 @@ A simple implementation of a two-player four-in-a-row game.
 
 The game should work in all browsers, however you need a modern browser for an optimal layout.
 
+##Demo
+
+For a live demo, go to [http://jslegers.github.com/4inarow/](http://jslegers.github.com/4inarow/).
+
 This implementation is MIT licensed.
 
 
