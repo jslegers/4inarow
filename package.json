@@ -1,0 +1,20 @@
+{
+  "name" : "4inarow",
+  "repository" : "https://github.com/jslegers/4inarow.git",
+  "issues" : "https://github.com/jslegers/4inarow/issues",
+  "author" : "jslegers", 
+  "version" : "1.0.0",
+  "testling": {
+    "files": "*.js",
+    "browsers": {
+      "ie": [ 6, 7, 8, 9, 10 ],
+      "firefox",
+      "chrome",
+      "safari",
+      "opera",
+      "iphone",
+      "ipad",
+      "android-browser"
+    }
+  }
+}
