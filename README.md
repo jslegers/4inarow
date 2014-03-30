@@ -1,3 +1,4 @@
+[![endorse](https://api.coderwall.com/johnslegers/endorsecount.png)](https://coderwall.com/johnslegers)
 
 #Four in a row
 
@@ -36,6 +37,3 @@ This implementation is MIT licensed.
  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  OTHER DEALINGS IN THE SOFTWARE.
-
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/jslegers/4inarow/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
-
