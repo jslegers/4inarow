@@ -1,6 +1,6 @@
 (function (doc, win, onclick, gid, classname, content, showMessage) {
     var
-            a, b, c, messages, colorLabel, cid, players, current, finished, newgameLabel, wonLabel, laststart = 1,
+            a, b, c, colorLabel, cid, players, current, finished, newgameLabel, wonLabel, laststart = 1,
             cellAt = function (i, j) {
                 return doc[gid](cid + i + j);
             },
@@ -43,46 +43,36 @@
                         return 4 < c - a;
                     }(i, j);
                 }(i, j)
-                        ? finished = 1 && win[showMessage](messages[wonLabel].replace("%s", players[current].toLowerCase())) && start()
+                        ? finished = 1 && win[showMessage](doc[gid](wonLabel)[content].replace("%s", players[current].toLowerCase())) && start()
                         : colorLabel[content] = colorLabel[classname] = players[current = (current + 1) % 2]
                         : setTimeout(function () {
                             makeMove(i, j, s + 1)
                         }, 20);
 
-            },
-            setClickHandlers = function (buttonId) {
-                for (a = 1; a < 7; a++)
-                    for (b = 1; b < 8; b++)
-                        cellAt(a, b)[onclick] = function (b, a) {
-                            return function () {
-                                if (!finished)
-                                    for (a = 6; a > 0; a--)
-                                        if (!cellAt(a, b)[classname]) {
-                                            makeMove(a, b, 0);
-                                            break;
-                                        }
-                            };
-                        }(b);
-                ;
-                doc[gid](buttonId)[onclick] = function () {
-                    win[showMessage](messages[newgameLabel]) && start()
-                };
             };
 
-    return function (m, n, w, c, b, p1, p2) {
+    return function (n, w, c, h, p1, p2) {
         cid = c;
         newgameLabel = n;
         wonLabel = w;
         colorLabel = doc[gid](c);
-        messages = {};
-        for (i in m = doc[gid](m).childNodes) {
-            w = m[i];
-            if ((c = w.id) !== undefined) {
-                messages[c] = w[content];
-            }
-        }
-        players = [messages[p1], messages[p2]];
-        setClickHandlers(b);
+        players = [doc[gid](p1)[content], doc[gid](p2)[content]];
+        for (a = 1; a < 7; a++)
+            for (b = 1; b < 8; b++)
+                cellAt(a, b)[onclick] = function (b, a) {
+                    return function () {
+                        if (!finished)
+                            for (a = 6; a > 0; a--)
+                                if (!cellAt(a, b)[classname]) {
+                                    makeMove(a, b, 0);
+                                    break;
+                                }
+                    };
+                }(b);
+        ;
+        doc[gid](h)[onclick] = function () {
+            win[showMessage](doc[gid](newgameLabel)[content]) && start()
+        };
         start();
     };
-})(document, window, "onclick", "getElementById", "className", "innerHTML", "confirm")("messages", "newgame", "won", "color", "restart", "p1", "p2");
+})(document, window, "onclick", "getElementById", "className", "innerHTML", "confirm")("newgame", "won", "color", "restart", "p1", "p2");
