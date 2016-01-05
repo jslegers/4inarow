@@ -1,94 +1,88 @@
-(function(doc){
-    var                      
-    start = function(){
-        finished = false;
-        changePlayer();
-    },			
-    newGame = function(message){
-        if (confirm(message)){
-            start();
-            forAllCells(emptyField);
-        }
-    },        
-    element = function(id){
-        return doc.getElementById(id);
-    },
-    value = function(el){
-        return element(el).innerHTML;
-    },                        
-    cell = function(i,j){
-        return element("c-"+i+"-"+j);
-    },       
-    forAllCells = function(action){
-        for (var t = 1;t<7;t++){
-            for (var counter2 = 1;counter2<8;counter2++){
-                action(t,counter2);
-            }
-        }
-    },                     
-    sameColor = function(i,j){
-        return testClass(i,j,players[current]);
-    },                        
-    changePlayer = function(){
-        element("c").innerHTML = players[current = (current + 1) % 2];
-    },                           
-    horizontalWon = function(i,j){
-        for(var min=j-1;min>0;min--)if(!sameColor(i,min))break;					
-        for(var max=j+1;max<8;max++)if(!sameColor(i,max))break;
-        return max-min>4;
-    },
-                                
-    verticalWon = function(i,j){
-        for(var max=i+1;max<7;max++)if(!sameColor(max,j))break;
-        return max-i>3;
-    },                        
-    diagonalLtrWon = function(i,j){
-        for(var min=i-1,t=j-1;min>0;min--,t--)if(t<1||!sameColor(min,t))break;
-        for(var max=i+1,t=j+1;max<7;max++,t++)if(t>7||!sameColor(max,t))break;
-        return max-min>4;
-    },                      
-    diagonalRtlWon = function(i,j){
-        for(var min=i-1,t=j+1;min>0;min--,t++)if(t>7||!sameColor(min,t))break;
-        for(var max=i+1,t=j-1;max<7;max++,t--)if(t<1||!sameColor(max,t))break;
-        return max-min>4;
-    },         
-    colorField = function(i,j,color){
-        cell(i,j).className = color;
-    },                      
-    emptyField = function(i,j){
-        colorField(i,j,'');
-    },
-    testClass = function(i,j,value){
-        return cell(i,j).className == value;
-    },
-    addCellBehavior = function(i,j){
-        cell(i,j).onclick = function(j){
-            return function(){
-                if(!finished){
-                    for (var t = 6;t>0;t--){
-                        if(testClass(t,j,'')){
-                            colorField(t,j,players[current]);
-                            if(horizontalWon(t,j) || verticalWon(t,j) || diagonalLtrWon(t,j) || diagonalRtlWon(t,j)){
-                                finished = true;
-                                newGame(wonMessage.replace("%s",players[current]));
-                            } else {
-                                changePlayer();
-                            }
-                            break;
+(function (doc, win, onclick, gid, classname, content, showMessage) {
+    var
+            a, b, c, messages, colorLabel, cid, players, current, finished, newgameLabel, wonLabel, laststart = 1,
+            cellAt = function (i, j) {
+                return doc[gid](cid + i + j);
+            },
+            isCurrentColor = function (i, j) {
+                return cellAt(i, j)[classname] === players[current];
+            },
+            start = function () {
+                current = laststart = (laststart + 1) % 2;
+                finished = 0;
+                colorLabel[content] = colorLabel[classname] = players[current = (current + 1) % 2];
+                for (a = 1; a < 7; a++)
+                    for (b = 1; b < 8; b++)
+                        cellAt(a, b)[classname] = '';
+            },
+            makeMove = function (i, j, s) {
+                s > 0 && (cellAt(s, j)[classname] = '');
+                cellAt(s + 1, j)[classname] = players[current];
+                s === i - 1 ? function (i, j) {
+                    return function (i, j) {
+                        for (a = j - 1; 0 < a && isCurrentColor(i, a); a--) {
                         }
-                    }
-                }
+                        for (b = j + 1; 8 > b && isCurrentColor(i, b); b++) {
+                        }
+                        return 4 < b - a;
+                    }(i, j) || function (i, j) {
+                        for (c = i + 1; 7 > c && isCurrentColor(c, j); c++) {
+                        }
+                        return 3 < c - i;
+                    }(i, j) || function (i, j) {
+                        for (a = i - 1, b = j - 1; 0 < a && !(1 > b) && isCurrentColor(a, b); a--)
+                            b--;
+                        for (c = i + 1, b = j + 1; 7 > c && !(7 < b) && isCurrentColor(c, b); c++)
+                            b++;
+                        return 4 < c - a
+                    }(i, j) || function (i, j) {
+                        for (a = i - 1, b = j + 1; 0 < a && !(7 < b) && isCurrentColor(a, b); a--)
+                            b++;
+                        for (c = i + 1, b = j - 1; 7 > c && !(1 > b) && isCurrentColor(c, b); c++)
+                            b--;
+                        return 4 < c - a;
+                    }(i, j);
+                }(i, j)
+                        ? finished = 1 && win[showMessage](messages[wonLabel].replace("%s", players[current].toLowerCase())) && start()
+                        : colorLabel[content] = colorLabel[classname] = players[current = (current + 1) % 2]
+                        : setTimeout(function () {
+                            makeMove(i, j, s + 1)
+                        }, 20);
+
+            },
+            setClickHandlers = function (buttonId) {
+                for (a = 1; a < 7; a++)
+                    for (b = 1; b < 8; b++)
+                        cellAt(a, b)[onclick] = function (b, a) {
+                            return function () {
+                                if (!finished)
+                                    for (a = 6; a > 0; a--)
+                                        if (!cellAt(a, b)[classname]) {
+                                            makeMove(a, b, 0);
+                                            break;
+                                        }
+                            };
+                        }(b);
+                ;
+                doc[gid](buttonId)[onclick] = function () {
+                    win[showMessage](messages[newgameLabel]) && start()
+                };
+            };
+
+    return function (m, n, w, c, b, p1, p2) {
+        cid = c;
+        newgameLabel = n;
+        wonLabel = w;
+        colorLabel = doc[gid](c);
+        messages = {};
+        for (i in m = doc[gid](m).childNodes) {
+            w = m[i];
+            if ((c = w.id) !== undefined) {
+                messages[c] = w[content];
             }
-        }(j);
-    },
-    players = [value("a"),value("b")],         
-    current = 0,
-    newGameMessage = value("n"),
-    wonMessage = value("w"),
-    finished;
-    start();
-    forAllCells(addCellBehavior);
-    element("r").onclick = function(){
-        newGame(newGameMessage)
+        }
+        players = [messages[p1], messages[p2]];
+        setClickHandlers(b);
+        start();
     };
-})(document);
+})(document, window, "onclick", "getElementById", "className", "innerHTML", "confirm")("messages", "newgame", "won", "color", "restart", "p1", "p2");
