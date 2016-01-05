@@ -4,9 +4,9 @@
 
 ##Summary
 
-A simple implementation of a two-player four-in-a-row game.
+A performance & filesize optimized implementation of a two-player four-in-a-row game.
 
-The game should work in all browsers, however you need a modern browser for an optimal layout.
+The game should work in all browsers, however you need a modern browser for optimal rendering.
 
 ##Demo
 
