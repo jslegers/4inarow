@@ -1,19 +1,24 @@
-[![endorse](https://api.coderwall.com/johnslegers/endorsecount.png)](https://coderwall.com/johnslegers)
+# Four in a row
 
-#Four in a row
-
-##Summary
+## Summary
 
 A performance & filesize optimized implementation of a two-player four-in-a-row game.
 
 The game should work in all browsers, however you need a modern browser for optimal rendering.
 
-##Demo
+## Demo
 
 For a live demo, go to [http://jslegers.github.com/4inarow/](http://jslegers.github.com/4inarow/).
 
 This implementation is MIT licensed.
 
+## Author
+
+| [![twitter/johnslegers](https://en.gravatar.com/avatar/bf4cc94221382810233575862875e687?s=70)](http://twitter.com/johnslegers "Follow @johnslegers on Twitter") |
+|---|
+| [John slegers](http://www.johnslegers.com/) |
+
+_____________________
 
  Copyright (c) 2011 John Slegers
 
