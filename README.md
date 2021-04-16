@@ -8,7 +8,7 @@ The game should work in all browsers, however you need a modern browser for opti
 
 ## Demo
 
-For a live demo, go to [http://jslegers.github.com/4inarow/](http://jslegers.github.com/4inarow/).
+For a live demo, go to [http://jslegers.github.io/4inarow/](http://jslegers.github.io/4inarow/).
 
 This implementation is MIT licensed.
 
